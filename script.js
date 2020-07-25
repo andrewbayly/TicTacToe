@@ -2,14 +2,20 @@ var board = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
 
 function start(){ 
   board = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+  playing = true; 
   showBoard(); 
+  message(''); 
 }
 
 function computerStarts(){ 
   board = [ '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+  playing = true; 
   showBoard(); 
   play(); 
+  message(''); 
 }
+
+var playing = false ; 
 
 const square = 100; 
 
@@ -17,12 +23,15 @@ function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect()
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
-    console.log("x: " + x + " y: " + y)
+    //console.log("x: " + x + " y: " + y)
   
     var xPos = Math.floor(x / square); 
     var yPos = Math.floor(y / square);
   
     var pos = yPos * 3 + xPos; 
+  
+    if(!playing)
+      return; 
   
     if(board[pos] == 'X' || board[pos] == 'O' )
       return;
@@ -82,22 +91,30 @@ function drawBoard() {
  
   
 }
+
 function showBoard(){
   drawBoard(); 
 }
 
 showBoard(); 
 
+function message(m){ 
+  var div = document.getElementById('message'); 
+  div.innerHTML = m ; 
+}
+
 function play(){ 
   //check board to see if anyone has won.
   //if so, anounce winner
   var w = winner(board); 
   if(w == 'X' || w == 'O') { 
-    alert('' + w + ' won');
+    message('' + w + ' won');
+    playing = false; 
     return; 
   }
   else if(w == 'draw') {
-    alert("it's a draw");
+    message("it's a draw");
+    playing = false; 
     return; 
   } 
   
@@ -116,11 +133,13 @@ function play(){
 
   var w = winner(board); 
   if(w == 'X' || w == 'O') { 
-    alert('' + w + ' won');
+    message('' + w + ' won');
+    playing = false; 
     return; 
   }
   else if(w == 'draw') {
-    alert("it's a draw");
+    message("it's a draw");
+    playing = false; 
     return; 
   } 
 } 
